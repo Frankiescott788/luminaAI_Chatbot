@@ -3,7 +3,7 @@ import jwt, {JwtPayload} from "jsonwebtoken";
 import User from "../models/users";
 
 export default async function useAuth(req : Request, res : Response, next : NextFunction): Promise<any> {
-    const { root } = req.cookies;
+    const root = req.cookies?.root || (req.headers.authorization?.startsWith("Bearer ") && req.headers.authorization.split(" ")[1]);
     if (!root) {
         return res.status(400).json({ err_msg : "Please provide a token" })
     }
