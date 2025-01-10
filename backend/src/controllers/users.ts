@@ -67,11 +67,13 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
         const token = jwt.sign({user_id : newuser.user_id }, "test123", {
             expiresIn : "7d",
         });
+
         res.cookie("root", token, { maxAge: 7 * 24 * 60 * 60 * 1000  });
 
-        res.status(200).json({
+        res.status(201).json({
             message: "Account created",
-            newuser
+            newuser,
+            token
         })
 
     } catch (err: any) {
@@ -102,7 +104,8 @@ export const signIn = async (req : Request, res : Response): Promise<any> => {
         res.cookie("root", token, { maxAge: 7 * 24 * 60 * 60 * 1000  });
         res.status(200).json({ 
             message : "user signed up",
-            data : findEmail
+            data : findEmail,
+            token
         })
     } catch (e : any) {
         console.log(e.message);

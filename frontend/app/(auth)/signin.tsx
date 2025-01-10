@@ -11,8 +11,8 @@ import { SvgUri } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Google, User } from "iconsax-react-native";
 import { Email, Lockpad } from "@/assets/icons/icons";
-import { Link } from "expo-router";
-import { useDispatch } from "react-redux";
+import { Link, useRouter } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
 import { Signup } from "@/redux/apiAsyncThunks";
 import { DispatchType, RootState } from "@/redux/store";
 
@@ -31,10 +31,19 @@ export default function Signin(): ReactElement {
   });
 
   const dispatch: DispatchType = useDispatch();
+  const router = useRouter();
+
+  const { status } = useSelector((state : RootState) => state.AuthReducer);
 
   const dispatchSignup = () => {
     dispatch(Signup({ username, email, password }));
   };
+
+  function Redirect () {
+    if(status === "success") {
+      router.push("/(main)");
+    }
+  }
 
   return (
     <SafeAreaView className="flex-1  bg-white px-8 pt-5">
@@ -164,7 +173,10 @@ export default function Signin(): ReactElement {
           <View className="w-full">
             <TouchableOpacity
               className="bg-primaryblue py-5 rounded-xl my-2"
-              onPress={dispatchSignup}
+              onPress={() => {
+                dispatchSignup();
+                Redirect();
+              }}
             >
               <Text
                 className="text-center text-white text-xl"

@@ -23,7 +23,7 @@ const Authslice = createSlice({
             })
             .addCase(Signup.rejected, (state, action) => {
                 state.error = action.error.message as string,
-                console.log(action.error.message)
+                console.log(action.error)
             })
     }
 })
