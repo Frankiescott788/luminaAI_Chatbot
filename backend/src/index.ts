@@ -16,6 +16,6 @@ const db = mongoose.connection;
 
 db.on("error", () : void => console.log("failed to connect to mongodb"));
 db.once("open", () => {
-    app.listen(8080, () => console.log("server connected to mongodb and running on port 8080"));
+    app.listen(8080, () => console.log("server connected to mongodb and running on port 8080..."));
     app.use(routes);
 });
