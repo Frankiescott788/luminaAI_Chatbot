@@ -2,8 +2,11 @@ import {Request, Response, text} from "express";
 import AIChat from "../models/chats";
 import {GoogleGenerativeAI} from "@google/generative-ai";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const genAI = new GoogleGenerativeAI("AIzaSyBHIfoxqNUrtEiu9gFirDHZWDXw27Y6Iy8");
+dotenv.config();
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API as string);
 
 const model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash-exp",
