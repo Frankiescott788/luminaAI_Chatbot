@@ -1,5 +1,5 @@
-import {GoogleGenerativeAI, HarmCategory, HarmBlockThreshold} from "@google/generative-ai";
-import {Request, Response} from "express";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Request, Response } from "express";
 import {Chats} from "../types/types";
 import AIChat from "../models/chats";
 import dotenv from "dotenv";
@@ -15,13 +15,16 @@ const model = genAI.getGenerativeModel({
 let history: Chats[] = [];
 
 export default async function Chat(req: Request, res: Response) {
+
+    const { chat_id } = req.body;
+
     try {
-        let create_chat = await AIChat.findOne({ chat_id : "5551"});
+        let create_chat = await AIChat.findOne({ chat_id });
 
         if (!create_chat) {
             create_chat = await AIChat.create({
                 user_id: req.userid,
-                chat_id : "5551",
+                chat_id : chat_id,
                 title: "new chat",
                 chats: [
                     {
