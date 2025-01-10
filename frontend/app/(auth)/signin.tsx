@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import {
   Image,
   StyleSheet,
@@ -13,8 +13,9 @@ import { Google, User } from "iconsax-react-native";
 import { Email, Lockpad } from "@/assets/icons/icons";
 import { Link, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Signup } from "@/redux/apiAsyncThunks";
-import { DispatchType, RootState } from "@/redux/store";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SignupErr, User as UserType } from "@/types/types";
 
 const logo = require("@/assets/pictures/herologo.png");
 const googleicon = require("@/assets/pictures/googleicon.svg");
@@ -25,26 +26,33 @@ export default function Signin(): ReactElement {
   const [password, setPassword] = useState("");
 
   const [fieldErrors, setFieldErrors] = useState({
+    user_id : "",
     username: "",
     email: "",
     password: "",
   });
 
-  const dispatch: DispatchType = useDispatch();
   const router = useRouter();
 
-  const { status } = useSelector((state : RootState) => state.AuthReducer);
-
-  const dispatchSignup = () => {
-    dispatch(Signup({ username, email, password }));
-  };
-
-  function Redirect () {
-    if(status === "success") {
-      router.push("/(main)");
-    }
+  const handleSignup = async (data : UserType) => {
+    const res = await axios.post("https://luminaai-chatbot.onrender.com/api/signup", data);
+    return res 
   }
 
+  const mutation = useMutation({
+    mutationFn : handleSignup,
+    onSuccess : () => {
+      router.push("/(main)")
+    },
+    onError : (error : SignupErr) => {
+      if(error.response.data.validation) {
+        setFieldErrors(error.response.data.validation)
+      }
+    },
+  });
+
+
+  
   return (
     <SafeAreaView className="flex-1  bg-white px-8 pt-5">
       <View>
@@ -174,8 +182,7 @@ export default function Signin(): ReactElement {
             <TouchableOpacity
               className="bg-primaryblue py-5 rounded-xl my-2"
               onPress={() => {
-                dispatchSignup();
-                Redirect();
+                mutation.mutate({ username, email, password })
               }}
             >
               <Text

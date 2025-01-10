@@ -3,8 +3,9 @@ import { ReactElement } from "react";
 import { useFonts } from "expo-font";
 import "@/global.css";
 import { Text, View } from "react-native";
-import { Provider } from "react-redux";
-import store from "@/redux/store";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout(): ReactElement {
   const [fontsLoaded] = useFonts({
@@ -23,7 +24,7 @@ export default function RootLayout(): ReactElement {
   }
 
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient} >
       <Stack
         screenOptions={{
           headerShown: false,
@@ -32,6 +33,6 @@ export default function RootLayout(): ReactElement {
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(main)" />
       </Stack>
-    </Provider>
+    </QueryClientProvider>
   );
 }
