@@ -37,3 +37,7 @@ export interface NewChat {
   chat_id : string,
   message : string
 }
+export interface Chats {
+  role : "user" | "model",
+  message : string
+}
