@@ -72,18 +72,10 @@ export default function Signup(): ReactElement {
     },
     onError: (err: any) => {
       if (err.response.data.err_msg) {
-        if(err.response.data.err_msg.toLowerCase() === "wrong password") {
-          setFieldErrors((prevState) => ({
-            ...prevState,
-            password: "wrong password",
-          }));
-        }
-        if(err.response.data.err_msg.toLowerCase() === "no email found") {
-          setFieldErrors((prevState) => ({
-            ...prevState,
-            email: "Email not recognized. Try again or sign up!",
-          }));
-        }
+        setFieldErrors(prevState => ({
+          ...prevState,
+          ...err.response.data.err_msg
+        }))
         console.log(err.response.data.err_msg);
       }
     },

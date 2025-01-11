@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 import {
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -32,11 +33,38 @@ export default function Signin(): ReactElement {
     password: "",
   });
 
+  
+
   const router = useRouter();
 
   const handleSignup = async (data : UserType) => {
-    const res = await axios.post("https://luminaai-chatbot.onrender.com/api/signup", data);
-    return res 
+    if (!data.email || !data.password) {
+      setFieldErrors((prevState) => ({
+        ...prevState,
+        username: !data.email ? "Username is required" : "",
+        email: !data.email ? "Email is required" : "",
+        password: !data.password ? "Password is required" : "",
+      }));
+      throw new Error("Email and password are required");
+    }
+  
+    setFieldErrors({
+      user_id: "",
+      username: "",
+      email: "",
+      password: "",
+    })
+  
+    try {
+      const res = await axios.post(
+        "https://luminaai-chatbot.onrender.com/api/signin",
+        data
+      );
+  
+      return res.data; // Make sure to return the response data of type ApiResUser
+    } catch (error) {
+      throw error; // Throw the error to be caught by onError in mutation
+    }
   }
 
   const mutation = useMutation({
@@ -44,9 +72,13 @@ export default function Signin(): ReactElement {
     onSuccess : () => {
       router.push("/(main)")
     },
-    onError : (error : SignupErr) => {
-      if(error.response.data.validation) {
-        setFieldErrors(error.response.data.validation)
+    onError : (err : SignupErr) => {
+      
+      if(err.response.data.validation) {
+        setFieldErrors(prevState => ({
+          ...prevState,
+          ...err.response.data.validation
+        }))
       }
     },
   });
@@ -54,7 +86,10 @@ export default function Signin(): ReactElement {
 
   
   return (
+    <ScrollView>
+    
     <SafeAreaView className="flex-1  bg-white px-8 pt-5">
+    
       <View>
         <View className="flex flex-row justify-center">
           <Image source={logo} className="h-[10rem] w-[8rem]" />
@@ -116,6 +151,13 @@ export default function Signin(): ReactElement {
                 onChangeText={setUsername}
               />
             </View>
+            {fieldErrors.username && (
+              <View>
+                <Text className="ps-2 pt-1" style={[styles.regularFontFamily ,{ color: "#ef4444", fontSize: 12 }]}>
+                  {fieldErrors.username}
+                </Text>
+              </View>
+            )}
           </View>
           <View>
             <Text
@@ -146,6 +188,13 @@ export default function Signin(): ReactElement {
                 onChangeText={setEmail}
               />
             </View>
+            {fieldErrors.email && (
+              <View>
+                <Text className="ps-2 pt-1" style={[styles.regularFontFamily ,{ color: "#ef4444", fontSize: 12 }]}>
+                  {fieldErrors.email}
+                </Text>
+              </View>
+            )}
           </View>
           <View>
             <Text
@@ -177,6 +226,13 @@ export default function Signin(): ReactElement {
                 secureTextEntry
               />
             </View>
+            {fieldErrors.password && (
+              <View>
+                <Text className="ps-2 pt-1" style={[styles.regularFontFamily ,{ color: "#ef4444", fontSize: 12 }]}>
+                  {fieldErrors.password}
+                </Text>
+              </View>
+            )}
           </View>
           <View className="w-full">
             <TouchableOpacity
@@ -221,6 +277,8 @@ export default function Signin(): ReactElement {
         </View>
       </View>
     </SafeAreaView>
+    </ScrollView>
+
   );
 }
 
