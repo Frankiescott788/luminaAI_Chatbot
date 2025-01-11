@@ -35,7 +35,7 @@ export default function Start(): ReactElement {
             <View className="px-8 flex flex-row justify-center w-full">
               <TouchableOpacity 
                 className="bg-primaryblue py-[20px] my-4 rounded-xl w-full"
-                onPress={() => router.push("/(auth)/signup")}
+                onPress={() => router.push("/(main)")}
               >
                 <Text className="text-center text-2xl text-white" style={styles.mediumFontFamily}>
                   Get Started

@@ -25,3 +25,15 @@ export interface ApiResUser {
     password: string;
     token? : string
 }
+
+export interface AuthContextTypes {
+  currentUser : User | null,
+  isAuthenticated : boolean,
+  setIsAuthenticated : React.Dispatch<React.SetStateAction<boolean>>,
+  isLoading : boolean
+}
+
+export interface NewChat {
+  chat_id : string,
+  message : string
+}

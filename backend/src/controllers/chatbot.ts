@@ -80,7 +80,7 @@ export default async function Chat(req: Request, res: Response) {
                 ]
             })
         await create_chat.save()
-        res.status(200).json({res: result});
+        res.status(200).json({res: result.response.text()});
 
         if (history.length >= 6 && create_chat.title === "new chat") {
             const result = await chatSession.sendMessage("Give this chat a title, just a name of a little bit sentence that explains the title of the chat, do not give suggestions just one");

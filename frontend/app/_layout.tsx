@@ -4,6 +4,8 @@ import { useFonts } from "expo-font";
 import "@/global.css";
 import { Text, View } from "react-native";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import AuthProvider from "@/context/useAuth";
+import Loading from "@/components/Loading";
 
 const queryClient = new QueryClient();
 
@@ -13,26 +15,28 @@ export default function RootLayout(): ReactElement {
     poppinsmedium: require("@/assets/fonts/Poppins/Poppins-Medium.ttf"),
     poppinssemibold: require("@/assets/fonts/Poppins/Poppins-SemiBold.ttf"),
     poppinsbold: require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
+    logotext: require("@/assets/fonts/MochiyPopOne-Regular.ttf"),
   });
+
 
   if (!fontsLoaded) {
     return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      <Loading />
     );
   }
 
   return (
-    <QueryClientProvider client={queryClient} >
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(main)" />
-      </Stack>
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(main)" />
+        </Stack>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }
