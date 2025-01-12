@@ -1,14 +1,15 @@
-import { Menu02Icon, SentIcon } from "@/assets/icons/icons";
+import { Cancel01Icon, Menu02Icon, SentIcon } from "@/assets/icons/icons";
 import useChats from "@/hooks/useChats";
 import { Chats, NewChat } from "@/types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { ArrowCircleUp, Clock } from "iconsax-react-native";
+import { ArrowCircleUp, Clock, SearchNormal, SearchNormal1 } from "iconsax-react-native";
 import React, { useEffect, useRef } from "react";
 import { ReactElement, useState } from "react";
 import {
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -245,6 +246,33 @@ export default function Home(): ReactElement {
           </Text>
         </View>
       </View>
+      <Modal>
+        <View className="flex-1 bg-white">
+            <View>
+              <View 
+                style={{
+                  display : "flex",
+                  flexDirection : "row",
+                  paddingInline : 10,
+                  paddingBlock : 20,
+                  justifyContent : "space-between"
+                }}
+              >
+                <Text style={[
+                  styles.logoFont
+                ]}
+                className="text-primaryblue text-3xl"
+                >Lumani.</Text>
+                <View className="">
+                  <Cancel01Icon width={20} height={20} color="black"/>
+                </View>
+              </View>
+              <View>
+                <SearchNormal1 size={23} color="black"/>
+              </View>
+            </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

@@ -106,13 +106,8 @@ export const Menu02Icon = ({ width, height, color }: IconProps) => (
   </Svg>
 );
 
-export const SentIcon = ({ width, height, color } : IconProps) => (
-  <Svg
-    width={width}
-    height={height}
-    color={color}
-    fill={"none"}
-  >
+export const SentIcon = ({ width, height, color }: IconProps) => (
+  <Svg width={width} height={height} color={color} fill={"none"}>
     <Path
       d="M21.0477 3.05293C18.8697 0.707363 2.48648 6.4532 2.50001 8.551C2.51535 10.9299 8.89809 11.6617 10.6672 12.1581C11.7311 12.4565 12.016 12.7625 12.2613 13.8781C13.3723 18.9305 13.9301 21.4435 15.2014 21.4996C17.2278 21.5892 23.1733 5.342 21.0477 3.05293Z"
       stroke="currentColor"
@@ -120,6 +115,24 @@ export const SentIcon = ({ width, height, color } : IconProps) => (
     />
     <Path
       d="M11.5 12.5L15 9"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+export const Cancel01Icon = ({ width, height, color }: IconProps) => (
+  <Svg
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    color={"#000000"}
+    fill={"none"}
+  >
+    <Path
+      d="M19.0005 4.99988L5.00049 18.9999M5.00049 4.99988L19.0005 18.9999"
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
