@@ -22,6 +22,7 @@ export default async function Chat(req: Request, res: Response) {
         let create_chat = await AIChat.findOne({ chat_id });
 
         if (!create_chat) {
+            history = [];
             create_chat = await AIChat.create({
                 user_id: req.userid,
                 chat_id : chat_id,

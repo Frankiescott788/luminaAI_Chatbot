@@ -39,5 +39,10 @@ export interface NewChat {
 }
 export interface Chats {
   role : "user" | "model",
-  message : string
+  message : string,
+  sentAt : string
+}
+
+export interface Convo {
+  
 }
